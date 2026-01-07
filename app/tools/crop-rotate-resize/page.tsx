@@ -294,18 +294,18 @@ export default function CropRotateResizePage() {
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
           {/* Header Section */}
-          <div className="w-full max-w-7xl mb-8">
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center mb-3">
+          <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
                 Crop, Rotate & Resize
               </span>
             </h1>
-            <p className="text-center text-white/60 text-sm sm:text-base mb-8">
+            <p className="text-center text-white/60 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 px-4">
               Transform your images with precise cropping, rotation, and resizing tools
             </p>
 
             {/* Controls Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
               {/* Upload Button */}
               <input
                 ref={fileInputRef}
@@ -394,8 +394,8 @@ export default function CropRotateResizePage() {
 
             {/* Mode-specific controls */}
             {mode === 'crop' && (
-              <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-                <span className="text-xs text-white/60">Aspect Ratio:</span>
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
+                <span className="text-[10px] sm:text-xs text-white/60 w-full sm:w-auto text-center sm:text-left mb-1 sm:mb-0">Aspect Ratio:</span>
                 {ASPECT_RATIOS.map((ratio) => (
                   <button
                     key={ratio.label}
@@ -413,8 +413,8 @@ export default function CropRotateResizePage() {
             )}
 
             {mode === 'rotate' && (
-              <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-                <span className="text-xs text-white/60">Quick Rotate:</span>
+              <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
+                <span className="text-[10px] sm:text-xs text-white/60 w-full sm:w-auto text-center sm:text-left mb-1 sm:mb-0">Quick Rotate:</span>
                 {ROTATE_PRESETS.map((deg) => (
                   <button
                     key={deg}
@@ -428,43 +428,45 @@ export default function CropRotateResizePage() {
                     {deg}°
                   </button>
                 ))}
-                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-md">
-                  <span className="text-xs text-white/60">Custom:</span>
+                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 py-2 backdrop-blur-md w-full sm:w-auto">
+                  <span className="text-[10px] sm:text-xs text-white/60">Custom:</span>
                   <input
                     type="range"
                     min={0}
                     max={360}
                     value={rotation}
                     onChange={(e) => setRotation(Number(e.target.value))}
-                    className="w-32 accent-sky-400"
+                    className="w-24 sm:w-32 accent-sky-400"
                   />
-                  <span className="text-xs text-white/90 w-10">{rotation}°</span>
+                  <span className="text-[10px] sm:text-xs text-white/90 w-8 sm:w-10">{rotation}°</span>
                 </div>
               </div>
             )}
 
             {mode === 'resize' && (
-              <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md">
-                  <span className="text-xs text-white/60">Target Size:</span>
-                  <span className="text-xs text-white/60">W:</span>
-                  <input
-                    type="number"
-                    value={resizeWidth}
-                    onChange={(e) => setResizeWidth(Number(e.target.value))}
-                    className="w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white/90 outline-none focus:border-sky-400/50"
-                    min={1}
-                  />
-                  <span className="text-xs text-white/60">H:</span>
-                  <input
-                    type="number"
-                    value={resizeHeight}
-                    onChange={(e) => setResizeHeight(Number(e.target.value))}
-                    className="w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-xs text-white/90 outline-none focus:border-sky-400/50"
-                    min={1}
-                  />
+              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
+                <div className="flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto">
+                  <span className="text-[10px] sm:text-xs text-white/60">Target Size:</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] sm:text-xs text-white/60">W:</span>
+                    <input
+                      type="number"
+                      value={resizeWidth}
+                      onChange={(e) => setResizeWidth(Number(e.target.value))}
+                      className="w-16 sm:w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] sm:text-xs text-white/90 outline-none focus:border-sky-400/50"
+                      min={1}
+                    />
+                    <span className="text-[10px] sm:text-xs text-white/60">H:</span>
+                    <input
+                      type="number"
+                      value={resizeHeight}
+                      onChange={(e) => setResizeHeight(Number(e.target.value))}
+                      className="w-16 sm:w-20 bg-white/5 border border-white/10 rounded px-2 py-1 text-[10px] sm:text-xs text-white/90 outline-none focus:border-sky-400/50"
+                      min={1}
+                    />
+                  </div>
                 </div>
-                <span className="text-xs text-white/40">
+                <span className="text-[10px] sm:text-xs text-white/40 text-center">
                   Original: {initialDimensions.width} × {initialDimensions.height}
                 </span>
               </div>
@@ -472,8 +474,8 @@ export default function CropRotateResizePage() {
 
             {/* Current dimensions display - only in view mode */}
             {processedImage && mode === 'view' && (
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <span className="text-xs text-white/60">
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-4 px-2">
+                <span className="text-[10px] sm:text-xs text-white/60 text-center">
                   Current: {originalDimensions.width} × {originalDimensions.height}
                 </span>
                 <span className="text-xs text-white/40">
@@ -484,10 +486,10 @@ export default function CropRotateResizePage() {
           </div>
 
           {/* Preview Pane */}
-          <div className="w-full max-w-7xl">
+          <div className="w-full max-w-7xl px-2">
             <div
-              className="relative w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
-              style={{ minHeight: '600px', height: '600px' }}
+              className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
+              style={{ minHeight: '400px', height: 'auto' }}
             >
               {!processedImage && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center">

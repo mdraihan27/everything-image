@@ -205,18 +205,18 @@ export default function ConvertPage() {
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
           {/* Header Section */}
-          <div className="w-full max-w-7xl mb-8">
-            <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center mb-3">
+          <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
                 Image Format Converter
               </span>
             </h1>
-            <p className="text-center text-white/60 text-sm sm:text-base mb-8">
+            <p className="text-center text-white/60 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 px-4">
               Convert images between 28+ formats including PNG, JPEG, WebP, AVIF, HEIC, GIF, BMP, TIFF, and more
             </p>
 
             {/* Controls Row */}
-            <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
               {/* Upload Button */}
               <input
                 ref={fileInputRef}
@@ -227,10 +227,11 @@ export default function ConvertPage() {
               />
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
+                className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
               >
-                <Upload size={18} />
-                Upload Image
+                <Upload size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <span className="hidden xs:inline">Upload Image</span>
+                <span className="xs:hidden">Upload</span>
               </button>
 
               {originalImage && (
@@ -239,9 +240,9 @@ export default function ConvertPage() {
                   <button
                     onClick={handleConvert}
                     disabled={isConverting || sourceFormat === targetFormat}
-                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    <RefreshCw size={18} className={isConverting ? 'animate-spin' : ''} />
+                    <RefreshCw size={16} className={`sm:w-[18px] sm:h-[18px] ${isConverting ? 'animate-spin' : ''}`} />
                     {isConverting ? 'Converting...' : 'Convert'}
                   </button>
 
@@ -249,9 +250,9 @@ export default function ConvertPage() {
                   {convertedImage && (
                     <button
                       onClick={handleDownload}
-                      className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
+                      className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
                     >
-                      <Download size={18} />
+                      <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
                       Download
                     </button>
                   )}
@@ -261,19 +262,20 @@ export default function ConvertPage() {
 
             {/* Format Selection */}
             {originalImage && (
-              <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
+              <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6 px-2">
                 {/* Source Format Display */}
-                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md">
+                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto justify-center">
                   <span className="text-xs text-white/60">From:</span>
                   <span className="text-sm font-medium text-white/90">
                     {getFormatLabel(sourceFormat)}
                   </span>
                 </div>
 
-                <ArrowRight size={20} className="text-white/40" />
+                <ArrowRight size={18} className="text-white/40 hidden sm:block" />
+                <div className="text-white/40 sm:hidden">↓</div>
 
                 {/* Target Format Dropdown */}
-                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 backdrop-blur-md">
+                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto justify-center">
                   <span className="text-xs text-white/60">To:</span>
                   <select
                     value={targetFormat}
@@ -305,10 +307,10 @@ export default function ConvertPage() {
           </div>
 
           {/* Preview Pane */}
-          <div className="w-full max-w-7xl">
+          <div className="w-full max-w-7xl px-2">
             <div
-              className="relative w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
-              style={{ minHeight: '600px', height: '600px' }}
+              className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
+              style={{ minHeight: '400px', height: 'auto' }}
             >
               {!originalImage && (
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -334,16 +336,16 @@ export default function ConvertPage() {
               )}
 
               {convertedImage && (
-                <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-2 gap-4 p-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6 md:p-8 min-h-[400px] md:min-h-[600px]">
                   {/* Original */}
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="text-white/60 text-xs mb-2">
+                  <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
+                    <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Original ({getFormatLabel(sourceFormat)})
                     </p>
                     <img
                       src={originalImage!}
                       alt="Original"
-                      className="max-w-full max-h-125 object-contain"
+                      className="max-w-full max-h-[200px] sm:max-h-[300px] md:max-h-125 object-contain"
                       style={{
                         background: 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px',
                       }}
@@ -351,14 +353,14 @@ export default function ConvertPage() {
                   </div>
 
                   {/* Converted */}
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="text-white/60 text-xs mb-2">
+                  <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
+                    <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Converted ({getFormatLabel(targetFormat)})
                     </p>
                     <img
                       src={convertedImage}
                       alt="Converted"
-                      className="max-w-full max-h-125 object-contain"
+                      className="max-w-full max-h-[200px] sm:max-h-[300px] md:max-h-125 object-contain"
                       style={{
                         background: 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px',
                       }}

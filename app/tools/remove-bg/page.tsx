@@ -165,18 +165,18 @@ export default function RemoveBackgroundPage() {
 
       <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
         {/* Header Section */}
-        <div className="w-full max-w-7xl mb-8">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-center mb-3">
+        <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
             <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
               Background Remover
             </span>
           </h1>
-          <p className="text-center text-white/60 text-sm sm:text-base mb-8">
+          <p className="text-center text-white/60 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 px-4">
             Upload an image to automatically remove its background, then refine manually
           </p>
 
           {/* Controls Row */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             {/* Upload Button */}
             <input
               ref={fileInputRef}
@@ -211,28 +211,28 @@ export default function RemoveBackgroundPage() {
 
                 {/* Brush Size */}
                 {isErasing && (
-                  <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-md">
-                    <span className="text-xs text-white/60">Brush:</span>
+                  <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 sm:py-2.5 backdrop-blur-md">
+                    <span className="text-[10px] sm:text-xs text-white/60">Brush:</span>
                     <input
                       type="range"
                       min="5"
                       max="50"
                       value={brushSize}
                       onChange={(e) => setBrushSize(Number(e.target.value))}
-                      className="w-20 accent-sky-400"
+                      className="w-16 sm:w-20 accent-sky-400"
                     />
-                    <span className="text-xs text-white/90 w-6">{brushSize}</span>
+                    <span className="text-[10px] sm:text-xs text-white/90 w-5 sm:w-6">{brushSize}</span>
                   </div>
                 )}
 
                 {/* Zoom Controls */}
-                <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-md">
+                <div className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-white/5 px-2 sm:px-4 py-2 sm:py-2.5 backdrop-blur-md">
                   <button
                     onClick={() => setZoom(prev => Math.max(50, prev - 10))}
                     className="text-white/70 hover:text-white transition-colors cursor-pointer"
                     aria-label="Zoom out"
                   >
-                    <ZoomOut size={18} />
+                    <ZoomOut size={16} className="sm:w-[18px] sm:h-[18px]" />
                   </button>
                   <input
                     type="range"
@@ -240,16 +240,16 @@ export default function RemoveBackgroundPage() {
                     max="300"
                     value={zoom}
                     onChange={(e) => setZoom(Number(e.target.value))}
-                    className="w-24 accent-sky-400"
+                    className="w-16 sm:w-24 accent-sky-400"
                   />
                   <button
                     onClick={() => setZoom(prev => Math.min(300, prev + 10))}
                     className="text-white/70 hover:text-white transition-colors cursor-pointer"
                     aria-label="Zoom in"
                   >
-                    <ZoomIn size={18} />
+                    <ZoomIn size={16} className="sm:w-[18px] sm:h-[18px]" />
                   </button>
-                  <span className="text-xs text-white/90 w-10 text-right">{zoom}%</span>
+                  <span className="text-[10px] sm:text-xs text-white/90 w-8 sm:w-10 text-right">{zoom}%</span>
                 </div>
 
                 {/* Reset Button */}
@@ -275,19 +275,20 @@ export default function RemoveBackgroundPage() {
 
           {/* Hint */}
           {processedImage && isErasing && showHint && (
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-white/50">
-              <Info size={14} />
-              <span>Drag over the image to manually erase parts • Ctrl+Scroll to zoom</span>
+            <div className="mt-3 sm:mt-4 flex items-center justify-center gap-2 text-[10px] sm:text-xs text-white/50 px-4 text-center">
+              <Info size={12} className="sm:w-[14px] sm:h-[14px] flex-shrink-0" />
+              <span className="hidden sm:inline">Drag over the image to manually erase parts • Ctrl+Scroll to zoom</span>
+              <span className="sm:hidden">Drag to erase • Pinch to zoom</span>
             </div>
           )}
         </div>
 
         {/* Preview Pane */}
-        <div className="w-full max-w-7xl">
+        <div className="w-full max-w-7xl px-2">
           <div
             ref={containerRef}
-            className="relative w-full rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
-            style={{ minHeight: '500px' }}
+            className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
+            style={{ minHeight: '400px' }}
           >
             {!originalImage && !isProcessing && (
               <div className="absolute inset-0 flex flex-col items-center justify-center">
