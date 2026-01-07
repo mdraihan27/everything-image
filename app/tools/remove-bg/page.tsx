@@ -188,7 +188,7 @@ export default function RemoveBackgroundPage() {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isProcessing}
-              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <Upload size={18} />
               Upload Image
@@ -199,7 +199,7 @@ export default function RemoveBackgroundPage() {
               <>
                 <button
                   onClick={() => setIsErasing(!isErasing)}
-                  className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm backdrop-blur-md transition-all ${
+                  className={`flex items-center gap-2 rounded-xl border px-4 py-2.5 text-sm backdrop-blur-md transition-all cursor-pointer ${
                     isErasing
                       ? 'border-sky-400/50 bg-sky-400/20 text-sky-200'
                       : 'border-white/10 bg-white/5 text-white/90 hover:bg-white/10'
@@ -229,7 +229,7 @@ export default function RemoveBackgroundPage() {
                 <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 backdrop-blur-md">
                   <button
                     onClick={() => setZoom(prev => Math.max(50, prev - 10))}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-white/70 hover:text-white transition-colors cursor-pointer"
                     aria-label="Zoom out"
                   >
                     <ZoomOut size={18} />
@@ -244,7 +244,7 @@ export default function RemoveBackgroundPage() {
                   />
                   <button
                     onClick={() => setZoom(prev => Math.min(300, prev + 10))}
-                    className="text-white/70 hover:text-white transition-colors"
+                    className="text-white/70 hover:text-white transition-colors cursor-pointer"
                     aria-label="Zoom in"
                   >
                     <ZoomIn size={18} />
@@ -255,7 +255,7 @@ export default function RemoveBackgroundPage() {
                 {/* Reset Button */}
                 <button
                   onClick={handleReset}
-                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10"
+                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
                 >
                   <RotateCcw size={18} />
                   Reset
@@ -264,7 +264,7 @@ export default function RemoveBackgroundPage() {
                 {/* Download Button */}
                 <button
                   onClick={handleDownload}
-                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30"
+                  className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
                 >
                   <Download size={18} />
                   Download

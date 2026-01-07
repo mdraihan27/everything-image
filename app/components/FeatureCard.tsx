@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import Link from "next/link";
 
 type FeatureCardProps = {
   title: string;
@@ -6,6 +7,7 @@ type FeatureCardProps = {
   badges?: string[];
   className?: string;
   icon?: LucideIcon;
+  href?: string;
 };
 
 export default function FeatureCard({
@@ -14,12 +16,14 @@ export default function FeatureCard({
   badges: _badges,
   className,
   icon: Icon,
+  href,
 }: FeatureCardProps) {
-  return (
+  const content = (
     <div
       className={
         "group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 text-left " +
         "backdrop-blur-sm transition hover:bg-white/10 " +
+        (href ? "cursor-pointer " : "") +
         (className ? className : "")
       }
     >
@@ -44,4 +48,10 @@ export default function FeatureCard({
       </div>
     </div>
   );
+
+  if (href) {
+    return <Link href={href}>{content}</Link>;
+  }
+
+  return content;
 }

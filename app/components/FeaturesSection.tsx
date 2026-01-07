@@ -20,6 +20,7 @@ type Feature = {
   description: string;
   badges: string[];
   icon: LucideIcon;
+  href?: string;
 };
 
 export default function FeaturesSection() {
@@ -30,18 +31,21 @@ export default function FeaturesSection() {
         description: "Cut out subjects cleanly in one click, ready for new backgrounds.",
         badges: ["PNG", "Edges", "Fast"],
         icon: Wand2,
+        href: "/tools/remove-bg",
       },
       {
-        title: "Resize image",
-        description: "Resize by pixels or percentage without losing the look.",
-        badges: ["Pixels", "%", "Maintain ratio"],
-        icon: Maximize2,
+        title: "Crop, Rotate & Resize",
+        description: "Transform images with precise cropping, rotation, and resizing tools.",
+        badges: ["Crop", "Rotate", "Resize"],
+        icon: Crop,
+        href: "/tools/crop-rotate-resize",
       },
       {
-        title: "Modify resolution",
-        description: "Change DPI and export for web or print workflows.",
-        badges: ["DPI", "Print", "Web"],
-        icon: Monitor,
+        title: "Convert format",
+        description: "Switch between 28+ formats including PNG, JPEG, WebP, AVIF, and more.",
+        badges: ["PNG", "JPEG", "WebP"],
+        icon: FileImage,
+        href: "/tools/convert",
       },
       {
         title: "Compress",
@@ -105,6 +109,7 @@ export default function FeaturesSection() {
               description={feature.description}
               badges={feature.badges}
               icon={feature.icon}
+              href={feature.href}
             />
           ))}
         </div>
