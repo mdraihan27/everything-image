@@ -1,18 +1,21 @@
 import GetStartedButton from "./GetStartedButton";
+import Link from "next/link";
 
 export default function Footer() {
   return (
     <footer className="relative z-20  w-full border-t border-white/10 bg-transparent">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-10 lg:flex-row lg:items-start lg:justify-between">
         {/* Brand / description */}
-        <div className="w-full max-w-sm text-center md:text-left flex flex-col items-center md:items-start">
+        <div className="w-full max-w-sm text-center md:text-left flex flex-col items-start md:items-start">
           <div className="inline-flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-400/70 via-blue-500/70 to-violet-400/70 text-black">
-              <span className="text-sm font-semibold">Ei</span>
-            </div>
+            
             <div className="text-left">
-              <p className="text-sm font-semibold tracking-tight text-white">everything-image</p>
-              <p className="text-xs text-white/60">Quick image edits, one simple place.</p>
+             <Link
+                  href="/"
+                  className="text-lg font-semibold tracking-tight text-white font-geom"
+                >
+                  <p className="velocity text-transparent bg-linear-to-r from-sky-700 to-sky-300 bg-clip-text mt-1 ">everything image</p>
+                </Link>
             </div>
           </div>
 
@@ -60,7 +63,7 @@ export default function Footer() {
             />
             <button
               type="submit"
-              className="inline-flex h-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-sky-300 to-sky-900 px-4 text-xs font-semibold text-black shadow-sm transition active:scale-[0.97]"
+              className="inline-flex h-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-sky-300 to-sky-900 px-4 text-xs font-semibold text-white shadow-sm transition active:scale-[0.97]"
             >
               Notify me
             </button>
