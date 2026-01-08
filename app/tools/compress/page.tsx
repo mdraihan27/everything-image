@@ -172,7 +172,7 @@ export default function CompressPage() {
                 onClick={() => fileInputRef.current?.click()}
                 className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
               >
-                <Upload size={16} className="sm:w-[18px] sm:h-[18px]" />
+                <Upload size={16} className="sm:w-4.5 sm:h-4.5" />
                 <span className="hidden xs:inline">Upload Image</span>
                 <span className="xs:hidden">Upload</span>
               </button>
@@ -183,9 +183,9 @@ export default function CompressPage() {
                   <button
                     onClick={handleCompress}
                     disabled={isCompressing}
-                    className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-green-200 backdrop-blur-md transition-all hover:bg-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)]hover:animate-none"
+                    className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-green-200 backdrop-blur-md transition-all hover:bg-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] hover:animate-none"
                   >
-                    <Minimize2 size={16} className={`sm:w-[18px] sm:h-[18px] ${isCompressing ? 'animate-pulse' : ''}`} />
+                    <Minimize2 size={16} className={`sm:w-4.5 sm:h-4.5 ${isCompressing ? 'animate-pulse' : ''}`} />
                     {isCompressing ? 'Compressing...' : 'Compress'}
                   </button>
 
@@ -195,7 +195,7 @@ export default function CompressPage() {
                       onClick={handleDownload}
                       className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
                     >
-                      <Download size={16} className="sm:w-[18px] sm:h-[18px]" />
+                      <Download size={16} className="sm:w-4.5 sm:h-4.5" />
                       Download
                     </button>
                   )}
@@ -290,7 +290,7 @@ export default function CompressPage() {
 
                 {/* Info Card */}
                 <div className="flex items-start gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-md max-w-2xl mx-auto">
-                  <Info size={14} className="text-sky-300 mt-0.5 flex-shrink-0 sm:w-4 sm:h-4" />
+                  <Info size={14} className="text-sky-300 mt-0.5 shrink-0 sm:w-4 sm:h-4" />
                   <p className="text-[10px] sm:text-xs text-sky-200/90 leading-relaxed">
                     {useCustom
                       ? `Compressing to approximately ${customSize.toFixed(1)} MB with ${customQuality}% quality. Lower quality = smaller file size.`
@@ -340,12 +340,12 @@ export default function CompressPage() {
               )}
 
               {originalImage && !compressedImage && (
-                <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 min-h-[400px]">
+                <div className="flex flex-col items-center justify-center p-4 sm:p-6 md:p-8 min-h-100">
                   <p className="text-white/60 text-xs sm:text-sm mb-4">Original Image</p>
                   <img
                     src={originalImage}
                     alt="Original"
-                    className="max-w-full max-h-[200px] sm:max-h-[300px] md:max-h-125 object-contain"
+                    className="max-w-full max-h-50 sm:max-h-75 md:max-h-125 object-contain"
                     style={{
                       background: 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px',
                     }}
@@ -354,16 +354,16 @@ export default function CompressPage() {
               )}
 
               {compressedImage && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6 md:p-8 min-h-[400px] md:min-h-[600px]">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6 md:p-8 min-h-100 md:min-h-150">
                   {/* Original */}
-                  <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
+                  <div className="flex flex-col items-center justify-center min-h-45 md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Original ({formatFileSize(originalSize)})
                     </p>
                     <img
-                      src={originalImage}
+                      src={originalImage!}
                       alt="Original"
-                      className="max-w-full max-h-[200px] sm:max-h-[300px] md:max-h-125 object-contain"
+                      className="max-w-full max-h-50 sm:max-h-75 md:max-h-125 object-contain"
                       style={{
                         background: 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px',
                       }}
@@ -371,14 +371,14 @@ export default function CompressPage() {
                   </div>
 
                   {/* Compressed */}
-                  <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
+                  <div className="flex flex-col items-center justify-center min-h-45 md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Compressed ({formatFileSize(compressedSize)})
                     </p>
                     <img
                       src={compressedImage}
                       alt="Compressed"
-                      className="max-w-full max-h-[200px] sm:max-h-[300px] md:max-h-125 object-contain"
+                      className="max-w-full max-h-50 sm:max-h-75 md:max-h-125 object-contain"
                       style={{
                         background: 'repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px',
                       }}
