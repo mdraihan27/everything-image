@@ -32,13 +32,13 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base text-white/70 sm:text-lg">
+          {/* <p className="mx-auto mt-5  text-base text-white/70 sm:text-lg">
             A tiny corner of the internet to fix images fast, without opening a heavy editor.
-          </p>
+          </p> */}
 
-          <div className="mt-10 flex justify-center">
+          {/* <div className="mt-10 flex justify-center">
             <GetStartedButton label="Open Playground" href="/playground" />
-          </div>
+          </div> */}
 
           <FeaturesSection />
           <EverythingInOnePlaceSection />

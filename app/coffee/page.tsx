@@ -22,7 +22,7 @@ export default function CoffeePage() {
 
           <p className="mt-4 text-sm leading-6 text-white/70 sm:text-base">
             If this little tool saves you a few minutes now and then, you can
-            support its maintenance with a small coffee. No pressure at all &mdash;
+            support its maintenance with a small coffee. No pressure at all;
             it will always stay free to use.
           </p>
 
@@ -33,9 +33,7 @@ export default function CoffeePage() {
             >
               Open coffee link
             </a>
-            <p className="text-xs text-white/60">
-              Replace this link with your BuyMeACoffee, Ko-fi, or tip jar URL.
-            </p>
+            
           </div>
         </div>
       </main>

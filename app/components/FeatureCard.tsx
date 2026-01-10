@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 type FeatureCardProps = {
@@ -8,6 +9,7 @@ type FeatureCardProps = {
   className?: string;
   icon?: LucideIcon;
   href?: string;
+  popular?: boolean;
 };
 
 export default function FeatureCard({
@@ -17,6 +19,7 @@ export default function FeatureCard({
   className,
   icon: Icon,
   href,
+  popular,
 }: FeatureCardProps) {
   const content = (
     <div
@@ -44,7 +47,21 @@ export default function FeatureCard({
               {title}
             </h3>
           </div>
+
+          {popular ? (
+            <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-amber-300 via-orange-400 to-pink-400 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-black shadow-[0_0_18px_rgba(251,191,36,0.8)] animate-pulse ">
+              <Sparkles className="h-3 w-3" strokeWidth={2} />
+              <span>Popular</span>
+            </span>
+          ) : null}
         </div>
+
+        {href ? (
+          <div className="mt-4 inline-flex items-center text-xs font-medium text-sky-300/80 group-hover:text-sky-200">
+            <span>Open</span>
+            <ArrowRight className="ml-1 h-3 w-3" strokeWidth={1.75} />
+          </div>
+        ) : null}
       </div>
     </div>
   );

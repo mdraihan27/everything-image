@@ -41,9 +41,9 @@ export default function Footer() {
             <a href="/contact" className="transition-colors hover:text-white">
               Contact
             </a>
-            <a href="/coffee" className="transition-colors hover:text-white">
+            {/* <a href="/coffee" className="transition-colors hover:text-white">
               Buy me a coffee
-            </a>
+            </a> */}
           </div>
         </div>
 
@@ -54,19 +54,23 @@ export default function Footer() {
             Be the first to know when we ship new image tools
             and quality improvements.
           </p>
-          <form className="mt-4 flex h-11 w-full max-w-md items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-2 backdrop-blur-sm">
-            <input
-              type="email"
-              required
-              placeholder="Enter your email"
-              className="h-full w-full bg-transparent pl-3 text-sm text-white placeholder:text-xs placeholder:text-white/50 outline-none"
-            />
-            <button
-              type="submit"
-              className="inline-flex h-8 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-sky-300 to-sky-900 px-4 text-xs font-semibold text-white shadow-sm transition active:scale-[0.97]"
-            >
-              Notify me
-            </button>
+          <form className="mt-4 w-full max-w-md">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <div className="flex h-11 flex-1 items-center rounded-2xl border border-white/15 bg-white/5 px-2 backdrop-blur-sm">
+                <input
+                  type="email"
+                  required
+                  placeholder="Enter your email"
+                  className="h-full w-full bg-transparent pl-3 text-sm text-white placeholder:text-xs placeholder:text-white/50 outline-none"
+                />
+              </div>
+              <button
+                type="submit"
+                className="inline-flex h-11 w-full items-center justify-center rounded-2xl bg-gradient-to-r from-sky-300 to-sky-900 px-4 text-xs font-semibold text-white shadow-sm transition active:scale-[0.97] sm:w-auto"
+              >
+                Notify me
+              </button>
+            </div>
           </form>
           <p className="mt-2 text-xs text-white/50">
             No spam. Unsubscribe anytime.
