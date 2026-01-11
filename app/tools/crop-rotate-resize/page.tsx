@@ -23,14 +23,11 @@ export default function CropRotateResizePage() {
   const [mode, setMode] = useState<Mode>('view');
   const [selectedAspect, setSelectedAspect] = useState<AspectRatio>(ASPECT_RATIOS[3]);
   
-  // Crop states
   const [crop, setCrop] = useState<CropType>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   
-  // Rotate state
   const [rotation, setRotation] = useState(0);
   
-  // Resize states
   const [resizeWidth, setResizeWidth] = useState<number>(0);
   const [resizeHeight, setResizeHeight] = useState<number>(0);
   const [originalDimensions, setOriginalDimensions] = useState({ width: 0, height: 0 });
@@ -40,7 +37,6 @@ export default function CropRotateResizePage() {
   const imgRef = useRef<HTMLImageElement>(null);
   const cropImgRef = useRef<HTMLImageElement>(null);
 
-  // Adjust crop to new aspect ratio when it changes
   useEffect(() => {
     if (mode === 'crop' && cropImgRef.current && selectedAspect.value) {
       const imgWidth = cropImgRef.current.width;
@@ -51,11 +47,9 @@ export default function CropRotateResizePage() {
       let newWidth, newHeight;
       
       if (imgAspect > targetAspect) {
-        // Image is wider, fit to height
         newHeight = 100;
         newWidth = (targetAspect / imgAspect) * 100;
       } else {
-        // Image is taller, fit to width
         newWidth = 100;
         newHeight = (imgAspect / targetAspect) * 100;
       }
@@ -68,7 +62,6 @@ export default function CropRotateResizePage() {
         y: (100 - newHeight) / 2
       });
     } else if (mode === 'crop' && !selectedAspect.value) {
-      // Custom aspect ratio - reset to full
       setCrop({
         unit: '%',
         width: 100,
@@ -79,7 +72,6 @@ export default function CropRotateResizePage() {
     }
   }, [selectedAspect, mode]);
 
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -103,13 +95,11 @@ export default function CropRotateResizePage() {
     };
     reader.readAsDataURL(file);
     
-    // Reset the input value to allow selecting the same file again
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  // Apply crop
   const handleApplyCrop = async () => {
     if (!completedCrop || !cropImgRef.current) return;
 
@@ -120,7 +110,6 @@ export default function CropRotateResizePage() {
       setMode('view');
       setCrop(undefined);
       
-      // Update dimensions
       const img = new Image();
       img.onload = () => {
         setOriginalDimensions({ width: img.width, height: img.height });
@@ -133,7 +122,6 @@ export default function CropRotateResizePage() {
     }
   };
 
-  // Apply rotation
   const handleApplyRotate = async () => {
     if (!processedImage) return;
 
@@ -144,7 +132,6 @@ export default function CropRotateResizePage() {
       setMode('view');
       setRotation(0);
       
-      // Update dimensions
       const img = new Image();
       img.onload = () => {
         setOriginalDimensions({ width: img.width, height: img.height });
@@ -157,33 +144,28 @@ export default function CropRotateResizePage() {
     }
   };
 
-  // Apply resize
   const handleApplyResize = async () => {
     if (!processedImage) return;
 
     try {
-      // Directly resize to specified dimensions (stretching if needed)
       const resizedImage = await getResizedImg(processedImage, resizeWidth, resizeHeight);
       setProcessedImage(resizedImage);
       setOriginalImage(resizedImage);
       setMode('view');
       setCrop(undefined);
       
-      // Update dimensions
       setOriginalDimensions({ width: resizeWidth, height: resizeHeight });
     } catch (error) {
       console.error('Error resizing image:', error);
     }
   };
 
-  // Cancel current operation
   const handleCancel = () => {
     setMode('view');
     setRotation(0);
     setCrop(undefined);
   };
 
-  // Download image
   const handleDownload = () => {
     if (!processedImage) return;
     const a = document.createElement('a');
@@ -192,7 +174,6 @@ export default function CropRotateResizePage() {
     a.click();
   };
 
-  // Helper to create image from data URL
   const createImage = (url: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
       const image = new Image();
@@ -202,7 +183,6 @@ export default function CropRotateResizePage() {
       image.src = url;
     });
 
-  // Get cropped image
   const getCroppedImg = async (
     image: HTMLImageElement,
     crop: PixelCrop
@@ -233,7 +213,6 @@ export default function CropRotateResizePage() {
     return canvas.toDataURL('image/png');
   };
 
-  // Get rotated image
   const getRotatedImg = async (imageSrc: string, rotation: number): Promise<string> => {
     const image = await createImage(imageSrc);
     const canvas = document.createElement('canvas');
@@ -255,7 +234,6 @@ export default function CropRotateResizePage() {
     return canvas.toDataURL('image/png');
   };
 
-  // Get resized image
   const getResizedImg = async (
     imageSrc: string,
     width: number,
@@ -283,7 +261,6 @@ export default function CropRotateResizePage() {
         }
       `}</style>
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-        {/* Background gradient */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -293,7 +270,6 @@ export default function CropRotateResizePage() {
         />
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-          {/* Header Section */}
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -304,9 +280,7 @@ export default function CropRotateResizePage() {
               Transform your images with precise cropping, rotation, and resizing tools
             </p>
 
-            {/* Controls Row */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              {/* Upload Button */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -324,7 +298,6 @@ export default function CropRotateResizePage() {
 
               {processedImage && mode === 'view' && (
                 <>
-                  {/* Crop Button */}
                   <button
                     onClick={() => {
                       setMode('crop');
@@ -342,7 +315,6 @@ export default function CropRotateResizePage() {
                     Crop
                   </button>
 
-                  {/* Rotate Button */}
                   <button
                     onClick={() => setMode('rotate')}
                     className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
@@ -351,7 +323,6 @@ export default function CropRotateResizePage() {
                     Rotate
                   </button>
 
-                  {/* Resize Button */}
                   <button
                     onClick={() => setMode('resize')}
                     className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:bg-white/10 cursor-pointer"
@@ -360,7 +331,6 @@ export default function CropRotateResizePage() {
                     Resize
                   </button>
 
-                  {/* Download Button */}
                   <button
                     onClick={handleDownload}
                     className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
@@ -371,7 +341,6 @@ export default function CropRotateResizePage() {
                 </>
               )}
 
-              {/* Cancel & Apply buttons for active modes */}
               {mode !== 'view' && (
                 <>
                   <button
@@ -392,7 +361,6 @@ export default function CropRotateResizePage() {
               )}
             </div>
 
-            {/* Mode-specific controls */}
             {mode === 'crop' && (
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
                 <span className="text-[10px] sm:text-xs text-white/60 w-full sm:w-auto text-center sm:text-left mb-1 sm:mb-0">Aspect Ratio:</span>
@@ -472,7 +440,6 @@ export default function CropRotateResizePage() {
               </div>
             )}
 
-            {/* Current dimensions display - only in view mode */}
             {processedImage && mode === 'view' && (
               <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 mb-4 px-2">
                 <span className="text-[10px] sm:text-xs text-white/60 text-center">
@@ -485,7 +452,6 @@ export default function CropRotateResizePage() {
             )}
           </div>
 
-          {/* Preview Pane */}
           <div className="w-full max-w-7xl px-2">
             <div
               className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"

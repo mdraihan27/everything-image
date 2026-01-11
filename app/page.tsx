@@ -1,12 +1,34 @@
+import type { Metadata } from "next";
 import GetStartedButton from "./components/GetStartedButton";
 import FeaturesSection from "./components/FeaturesSection";
 import WhyEverythingImageSection from "./components/WhyEverythingImageSection";
 import EverythingInOnePlaceSection from "./components/EverythingInOnePlaceSection";
 
+export const metadata: Metadata = {
+  title: "Online Image Editor & Tools",
+  description:
+    "Use Everything Image as your online image editor to resize, convert, compress, crop, and enhance photos directly in your browser.",
+  keywords: [
+    "online image editor",
+    "free image tools",
+    "resize image online",
+    "compress image online",
+    "convert image formats",
+    "crop and rotate photo",
+    "remove background online",
+  ],
+  openGraph: {
+    title: "Online Image Editor & Quick Image Tools",
+    description:
+      "Resize, convert, compress, crop, and enhance images in seconds with Everything Image's free browser-based editor.",
+    url: "https://everything-image.tech/",
+    type: "website",
+  },
+};
+
 export default function Home() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-      {/* Violet Storm Background with Top Glow */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -42,10 +64,14 @@ export default function Home() {
 
           <FeaturesSection />
           <EverythingInOnePlaceSection />
-          <WhyEverythingImageSection />
 
-          {/* SEO content section */}
           <section className="mt-20 w-full text-left text-white/80 leading-relaxed">
+            <h1 className="sr-only">
+              Free Online Image Editor for Fast Resize, Convert and Compress
+            </h1>
+            <h2 className="sr-only">
+              Edit, optimize and clean up photos in your browser
+            </h2>
             <div className="mx-auto max-w-4xl space-y-10 text-sm sm:text-base">
               <div>
                 <h2 className="text-xl font-semibold text-white sm:text-2xl">
@@ -62,13 +88,13 @@ export default function Home() {
 
               <div>
                 <h2 className="text-xl font-semibold text-white sm:text-2xl">
-                  Remove image background online in one click
+                  Clean background removal without heavy software
                 </h2>
                 <p className="mt-3">
                   Use the Remove BG tool to cut out subjects cleanly and create
-                  transparent PNGs ready for thumbnails, product photos, and social
-                  posts. The online background remover focuses on edges so you can
-                  separate people, objects, and logos from busy scenes in seconds.
+                  shareable images. The online background remover focuses on edges so
+                  you can separate people, objects, and logos from busy scenes in
+                  seconds.
                 </p>
               </div>
 

@@ -108,7 +108,6 @@ export default function AddTextPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Add new text layer
   const addTextLayer = () => {
     const newLayer: TextLayer = {
       id: nextId,
@@ -129,7 +128,6 @@ export default function AddTextPage() {
     setNextId(nextId + 1);
   };
 
-  // Delete text layer
   const deleteTextLayer = (id: number) => {
     setTextLayers(textLayers.filter(layer => layer.id !== id));
     if (selectedLayerId === id) {
@@ -137,17 +135,14 @@ export default function AddTextPage() {
     }
   };
 
-  // Update text layer
   const updateTextLayer = (id: number, updates: Partial<TextLayer>) => {
     setTextLayers(textLayers.map(layer => 
       layer.id === id ? { ...layer, ...updates } : layer
     ));
   };
 
-  // Get selected layer
   const selectedLayer = textLayers.find(layer => layer.id === selectedLayerId);
 
-  // Draw canvas
   const drawCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas || !originalImage) return;
@@ -160,32 +155,26 @@ export default function AddTextPage() {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
 
-      // Draw original image
       ctx.drawImage(img, 0, 0);
 
-      // Draw all text layers
       textLayers.forEach(layer => {
         ctx.save();
         ctx.globalAlpha = layer.opacity / 100;
 
-        // Set font
         ctx.font = `${layer.fontStyle} ${layer.fontWeight} ${layer.fontSize}px ${layer.fontFamily}`;
         ctx.fillStyle = layer.fontColor;
         ctx.textBaseline = 'middle';
         ctx.textAlign = 'center';
 
-        // Calculate position
         const x = (layer.x / 100) * canvas.width;
         const y = (layer.y / 100) * canvas.height;
 
-        // Apply rotation
         if (layer.rotation !== 0) {
           ctx.translate(x, y);
           ctx.rotate((layer.rotation * Math.PI) / 180);
           ctx.translate(-x, -y);
         }
 
-        // Draw shadow
         if (layer.textShadow) {
           ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
           ctx.shadowBlur = 4;
@@ -195,7 +184,6 @@ export default function AddTextPage() {
 
         ctx.fillText(layer.text, x, y);
         
-        // Draw selection outline if selected
         if (layer.id === selectedLayerId) {
           const metrics = ctx.measureText(layer.text);
           const textWidth = metrics.width;
@@ -213,7 +201,6 @@ export default function AddTextPage() {
     img.src = originalImage;
   };
 
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -231,7 +218,6 @@ export default function AddTextPage() {
     }
   };
 
-  // Handle canvas drag
   const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -246,7 +232,6 @@ export default function AddTextPage() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    // Check if clicked on any layer (reverse order to check top layers first)
     let clickedLayerId: number | null = null;
     
     for (let i = textLayers.length - 1; i >= 0; i--) {
@@ -259,7 +244,6 @@ export default function AddTextPage() {
       const textWidth = metrics.width;
       const textHeight = layer.fontSize;
 
-      // Check if click is within text bounds
       if (
         clickX >= layerX - textWidth / 2 &&
         clickX <= layerX + textWidth / 2 &&
@@ -301,7 +285,6 @@ export default function AddTextPage() {
     setIsDragging(false);
   };
 
-  // Download image
   const handleDownload = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -319,14 +302,12 @@ export default function AddTextPage() {
     });
   };
 
-  // Redraw canvas when anything changes
   useEffect(() => {
     drawCanvas();
   }, [originalImage, textLayers, selectedLayerId]);
 
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-      {/* Background gradient */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -336,7 +317,6 @@ export default function AddTextPage() {
       />
 
       <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-        {/* Header Section */}
         <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
             <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -347,9 +327,7 @@ export default function AddTextPage() {
             Add multiple text layers with custom fonts, colors, and effects - fully draggable
           </p>
 
-          {/* Controls Row */}
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            {/* Upload Image Button */}
             <input
               ref={fileInputRef}
               type="file"
@@ -368,7 +346,6 @@ export default function AddTextPage() {
 
             {originalImage && (
               <>
-                {/* Add Text Button */}
                 <button
                   onClick={addTextLayer}
                   className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-purple-500/30 bg-purple-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-purple-200 backdrop-blur-md transition-all hover:bg-purple-500/20 cursor-pointer"
@@ -377,7 +354,6 @@ export default function AddTextPage() {
                   Add Text
                 </button>
 
-                {/* Download Button */}
                 <button
                   onClick={handleDownload}
                   className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-green-200 backdrop-blur-md transition-all hover:bg-green-500/20 cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-pulse hover:animate-none"
@@ -390,13 +366,10 @@ export default function AddTextPage() {
           </div>
         </div>
 
-        {/* Main Content Area - Side by Side Layout */}
         {originalImage && (
           <div className="w-full max-w-7xl px-2">
             <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-4 sm:gap-6">
-              {/* Left Side - Controls Panel */}
               <div className="space-y-3 sm:space-y-4">
-                {/* Text Layers List */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs text-white/60">Text Layers ({textLayers.length})</span>
@@ -412,7 +385,7 @@ export default function AddTextPage() {
                   <div className="space-y-2 max-h-48 overflow-y-auto">
                     {textLayers.length === 0 ? (
                       <div className="text-center py-8 text-white/40 text-xs">
-                        No text layers yet. Click "Add Text" to start.
+                        No text layers yet. Click &quot;Add Text&quot; to start.
                       </div>
                     ) : (
                       textLayers.map((layer) => (
@@ -444,14 +417,12 @@ export default function AddTextPage() {
                   </div>
                 </div>
 
-                {/* Selected Layer Controls */}
                 {selectedLayer && (
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-white/60">Edit Layer #{selectedLayer.id}</span>
                     </div>
 
-                    {/* Text Input */}
                     <div>
                       <span className="text-xs text-white/60 mb-2 block">Text Content</span>
                       <div className="flex items-center gap-2 rounded-xl border border-purple-400/30 bg-purple-400/10 px-3 py-2 backdrop-blur-md">
@@ -466,7 +437,6 @@ export default function AddTextPage() {
                       </div>
                     </div>
 
-                    {/* Font Family */}
                     <div>
                       <span className="text-xs text-white/60 mb-2 block">Font Family</span>
                       <select
@@ -492,7 +462,6 @@ export default function AddTextPage() {
                       </select>
                     </div>
 
-                    {/* Style Controls */}
                     <div className="space-y-2">
                       <span className="text-xs text-white/60">Text Style</span>
                       
@@ -545,9 +514,7 @@ export default function AddTextPage() {
                       </div>
                     </div>
 
-                    {/* Sliders */}
                     <div className="space-y-3">
-                      {/* Font Size */}
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
@@ -566,7 +533,6 @@ export default function AddTextPage() {
                         />
                       </div>
 
-                      {/* Opacity */}
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
@@ -585,7 +551,6 @@ export default function AddTextPage() {
                         />
                       </div>
 
-                      {/* Rotation */}
                       <div className="space-y-1">
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1.5">
@@ -605,7 +570,6 @@ export default function AddTextPage() {
                       </div>
                     </div>
 
-                    {/* Instructions */}
                     <div className="flex items-start gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 py-2 backdrop-blur-md">
                       <Type size={12} className="text-sky-300 mt-0.5 shrink-0" />
                       <p className="text-[10px] text-sky-200/90 leading-relaxed">
@@ -622,7 +586,6 @@ export default function AddTextPage() {
                 )}
               </div>
 
-              {/* Right Side - Canvas Preview */}
               <div
                 className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
                 style={{ minHeight: '500px', maxHeight: '700px' }}
@@ -645,7 +608,6 @@ export default function AddTextPage() {
           </div>
         )}
 
-        {/* Empty State */}
         {!originalImage && (
           <div className="w-full max-w-7xl px-2">
             <div
@@ -661,6 +623,18 @@ export default function AddTextPage() {
             </div>
           </div>
         )}
+
+        <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+          <h1 className="sr-only">Add text to images online with custom fonts</h1>
+          <h2 className="text-xl font-semibold text-white sm:text-2xl">
+            Create captions, titles and social graphics with layered text
+          </h2>
+          <p className="mt-3">
+            Add multiple text layers with different fonts, sizes, colors and
+            rotations so you can design social posts, announcements and
+            thumbnails without opening a heavy design tool.
+          </p>
+        </section>
       </main>
     </div>
   );

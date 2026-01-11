@@ -21,7 +21,6 @@ export default function BlurMosaicPage() {
   const originalCanvasRef = useRef<HTMLCanvasElement>(null);
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
   
-  // Load image to canvas
   const loadImageToCanvas = (imageSrc: string) => {
     const img = new Image();
     img.onload = () => {
@@ -31,7 +30,6 @@ export default function BlurMosaicPage() {
       
       if (!canvas || !displayCanvas || !maskCanvas) return;
       
-      // Set canvas dimensions
       canvas.width = img.width;
       canvas.height = img.height;
       displayCanvas.width = img.width;
@@ -39,7 +37,6 @@ export default function BlurMosaicPage() {
       maskCanvas.width = img.width;
       maskCanvas.height = img.height;
       
-      // Draw original image
       const ctx = canvas.getContext('2d', { willReadFrequently: true });
       const displayCtx = displayCanvas.getContext('2d', { willReadFrequently: true });
       if (!ctx || !displayCtx) return;
@@ -47,10 +44,8 @@ export default function BlurMosaicPage() {
       ctx.drawImage(img, 0, 0);
       displayCtx.drawImage(img, 0, 0);
       
-      // Force canvas to update display
       displayCanvas.style.display = 'block';
       
-      // Clear mask
       const maskCtx = maskCanvas.getContext('2d');
       if (maskCtx) {
         maskCtx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
@@ -59,7 +54,6 @@ export default function BlurMosaicPage() {
     img.src = imageSrc;
   };
 
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -79,7 +73,6 @@ export default function BlurMosaicPage() {
     }
   };
 
-  // Apply blur effect to a specific area
   const applyBlurAtPoint = (x: number, y: number) => {
     const canvas = canvasRef.current;
     const originalCanvas = originalCanvasRef.current;
@@ -91,7 +84,6 @@ export default function BlurMosaicPage() {
     
     if (!ctx || !originalCtx) return;
     
-    // Create a temporary canvas for the blur area
     const tempCanvas = document.createElement('canvas');
     const padding = blurStrength;
     const size = brushSize * 2 + padding * 2;
@@ -101,23 +93,19 @@ export default function BlurMosaicPage() {
     
     if (!tempCtx) return;
     
-    // Calculate the area to blur
     const sx = Math.max(0, x - brushSize - padding);
     const sy = Math.max(0, y - brushSize - padding);
     const sw = Math.min(size, originalCanvas.width - sx);
     const sh = Math.min(size, originalCanvas.height - sy);
     
-    // Draw the area from original image
     tempCtx.drawImage(
       originalCanvas,
       sx, sy, sw, sh,
       0, 0, sw, sh
     );
     
-    // Apply blur using stackblur
     canvasRGBA(tempCanvas, 0, 0, sw, sh, blurStrength);
     
-    // Create a mask for the circular brush with feathering
     const maskCanvas = document.createElement('canvas');
     maskCanvas.width = sw;
     maskCanvas.height = sh;
@@ -125,7 +113,6 @@ export default function BlurMosaicPage() {
     
     if (!maskCtx) return;
     
-    // Draw gradient mask
     const centerX = x - sx;
     const centerY = y - sy;
     
@@ -139,22 +126,18 @@ export default function BlurMosaicPage() {
       maskCtx.fillStyle = gradient;
       maskCtx.fillRect(0, 0, sw, sh);
     } else {
-      // No feather - solid circle
       maskCtx.fillStyle = 'black';
       maskCtx.beginPath();
       maskCtx.arc(centerX, centerY, brushSize, 0, Math.PI * 2);
       maskCtx.fill();
     }
     
-    // Apply mask to blurred image
     tempCtx.globalCompositeOperation = 'destination-in';
     tempCtx.drawImage(maskCanvas, 0, 0);
     
-    // Draw the masked blur onto the main canvas
     ctx.drawImage(tempCanvas, 0, 0, sw, sh, sx, sy, sw, sh);
   };
 
-  // Apply mosaic effect to a specific area
   const applyMosaicAtPoint = (x: number, y: number) => {
     const canvas = canvasRef.current;
     const originalCanvas = originalCanvasRef.current;
@@ -166,7 +149,6 @@ export default function BlurMosaicPage() {
     
     if (!ctx || !originalCtx) return;
     
-    // Apply mosaic within the brush area
     const startX = Math.max(0, Math.floor(x - brushSize));
     const startY = Math.max(0, Math.floor(y - brushSize));
     const endX = Math.min(originalCanvas.width, Math.ceil(x + brushSize));
@@ -174,13 +156,11 @@ export default function BlurMosaicPage() {
     
     for (let my = startY; my < endY; my += mosaicSize) {
       for (let mx = startX; mx < endX; mx += mosaicSize) {
-        // Check if point is within brush circle
         const dx = mx + mosaicSize / 2 - x;
         const dy = my + mosaicSize / 2 - y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
         if (distance <= brushSize) {
-          // Get average color of the mosaic block
           const blockWidth = Math.min(mosaicSize, originalCanvas.width - mx);
           const blockHeight = Math.min(mosaicSize, originalCanvas.height - my);
           
@@ -199,7 +179,6 @@ export default function BlurMosaicPage() {
           g = Math.floor(g / count);
           b = Math.floor(b / count);
           
-          // Apply feathering based on distance from center
           let alpha = 1;
           if (brushFeather > 0 && distance > brushSize - brushFeather) {
             alpha = 1 - (distance - (brushSize - brushFeather)) / brushFeather;
@@ -214,7 +193,6 @@ export default function BlurMosaicPage() {
     }
   };
 
-  // Handle mouse/touch events
   const handlePointerDown = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     setIsDrawing(true);
     const point = getPointFromEvent(e);
@@ -243,7 +221,6 @@ export default function BlurMosaicPage() {
     setIsDrawing(false);
   };
 
-  // Get canvas coordinates from event
   const getPointFromEvent = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return null;
@@ -268,13 +245,11 @@ export default function BlurMosaicPage() {
     return { x, y };
   };
 
-  // Reset to original
   const handleReset = () => {
     if (!originalImage) return;
     loadImageToCanvas(originalImage);
   };
 
-  // Download image
   const handleDownload = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -294,7 +269,6 @@ export default function BlurMosaicPage() {
 
   return (
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-        {/* Background gradient */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -302,9 +276,7 @@ export default function BlurMosaicPage() {
               "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(105, 182, 255, 0.25), transparent 70%), #000000",
           }}
         />
-
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-          {/* Header Section */}
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -314,10 +286,7 @@ export default function BlurMosaicPage() {
             <p className="text-center text-white/60 text-xs sm:text-sm md:text-base mb-6 sm:mb-8 px-4">
               Apply blur or mosaic effects by dragging your mouse over the image - perfect for privacy protection
             </p>
-
-            {/* Controls Row */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              {/* Upload Button */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -336,7 +305,6 @@ export default function BlurMosaicPage() {
 
               {originalImage && (
                 <>
-                  {/* Reset Button */}
                   <button
                     onClick={handleReset}
                     className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-orange-500/30 bg-orange-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-orange-200 backdrop-blur-md transition-all hover:bg-orange-500/20 cursor-pointer"
@@ -344,8 +312,6 @@ export default function BlurMosaicPage() {
                     <RotateCcw size={16} className="sm:w-4.5 sm:h-4.5" />
                     Reset
                   </button>
-
-                  {/* Download Button */}
                   <button
                     onClick={handleDownload}
                     className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-green-200 backdrop-blur-md transition-all hover:bg-green-500/20 cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-pulse hover:animate-none"
@@ -357,7 +323,6 @@ export default function BlurMosaicPage() {
               )}
             </div>
 
-            {/* Mode Selection */}
             {originalImage && (
               <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
                 <button
@@ -385,11 +350,9 @@ export default function BlurMosaicPage() {
               </div>
             )}
 
-            {/* Brush Controls */}
             {originalImage && (
               <div className="space-y-3 sm:space-y-4">
                 <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4 px-2">
-                  {/* Brush Size */}
                   <div className="flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto">
                     <span className="text-[10px] sm:text-xs text-white/60 whitespace-nowrap">Brush Size:</span>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -406,7 +369,6 @@ export default function BlurMosaicPage() {
                     </div>
                   </div>
 
-                  {/* Brush Feather */}
                   <div className="flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto">
                     <span className="text-[10px] sm:text-xs text-white/60 whitespace-nowrap">Feather:</span>
                     <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -423,8 +385,6 @@ export default function BlurMosaicPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* Mode-specific controls */}
                 <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 px-2">
                   {mode === 'blur' && (
                     <div className="flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto">
@@ -462,8 +422,6 @@ export default function BlurMosaicPage() {
                     </div>
                   )}
                 </div>
-
-                {/* Instructions */}
                 <div className="flex items-start gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-md max-w-2xl mx-auto">
                   <Droplets size={14} className="text-sky-300 mt-0.5 shrink-0 sm:w-4 sm:h-4" />
                   <p className="text-[10px] sm:text-xs text-sky-200/90 leading-relaxed">
@@ -475,7 +433,6 @@ export default function BlurMosaicPage() {
             )}
           </div>
 
-          {/* Canvas Preview */}
           <div className="w-full max-w-7xl px-2">
             <div
               className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
@@ -493,7 +450,6 @@ export default function BlurMosaicPage() {
               {originalImage && (
                 <div className="relative w-full h-full flex items-center justify-center p-4 sm:p-6 md:p-8">
                   <div className="relative max-w-full max-h-150 md:max-h-200">
-                    {/* Hidden canvases for processing */}
                     <canvas
                       ref={originalCanvasRef}
                       className="hidden"
@@ -502,8 +458,6 @@ export default function BlurMosaicPage() {
                       ref={maskCanvasRef}
                       className="hidden"
                     />
-                    
-                    {/* Display canvas */}
                     <canvas
                       ref={canvasRef}
                       onMouseDown={handlePointerDown}
@@ -525,6 +479,18 @@ export default function BlurMosaicPage() {
               )}
             </div>
           </div>
+
+          <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Blur or pixelate sensitive parts of images online</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Hide faces, emails and private details before you share
+            </h2>
+            <p className="mt-3">
+              Use the blur and mosaic brush to quickly cover up names,
+              addresses, avatars and any sensitive on-screen content before
+              posting screenshots or photos anywhere.
+            </p>
+          </section>
         </main>
       </div>
   );

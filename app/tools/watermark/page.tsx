@@ -47,7 +47,6 @@ const FONT_OPTIONS = [
   { name: 'Outfit', value: 'Outfit, sans-serif' },
   { name: 'Shadows Into Light', value: 'Shadows Into Light, cursive' },
   { name: 'Zilla Slab', value: 'Zilla Slab, serif' },
-  // Italic & Script Fonts
   { name: 'Great Vibes', value: 'Great Vibes, cursive' },
   { name: 'Allura', value: 'Allura, cursive' },
   { name: 'Satisfy', value: 'Satisfy, cursive' },
@@ -58,7 +57,6 @@ const FONT_OPTIONS = [
   { name: 'Tangerine', value: 'Tangerine, cursive' },
   { name: 'Courgette', value: 'Courgette, cursive' },
   { name: 'Bad Script', value: 'Bad Script, cursive' },
-  // Oxford/Classic Fonts
   { name: 'Libre Baskerville', value: 'Libre Baskerville, serif' },
   { name: 'Lora', value: 'Lora, serif' },
   { name: 'Cardo', value: 'Cardo, serif' },
@@ -69,7 +67,6 @@ const FONT_OPTIONS = [
   { name: 'Unna', value: 'Unna, serif' },
   { name: 'Neuton', value: 'Neuton, serif' },
   { name: 'Sorts Mill Goudy', value: 'Sorts Mill Goudy, serif' },
-  // Additional Cursive Fonts
   { name: 'Amatic SC', value: 'Amatic SC, cursive' },
   { name: 'Yellowtail', value: 'Yellowtail, cursive' },
   { name: 'Pinyon Script', value: 'Pinyon Script, cursive' },
@@ -94,7 +91,6 @@ export default function WatermarkPage() {
   const [watermarkText, setWatermarkText] = useState<string>('WATERMARK');
   const [fileName, setFileName] = useState<string>('image');
   
-  // Watermark properties
   const [watermarkOpacity, setWatermarkOpacity] = useState<number>(50);
   const [watermarkScale, setWatermarkScale] = useState<number>(100);
   const [watermarkRotation, setWatermarkRotation] = useState<number>(0);
@@ -102,7 +98,6 @@ export default function WatermarkPage() {
   const [customX, setCustomX] = useState<number>(50);
   const [customY, setCustomY] = useState<number>(50);
   
-  // Text watermark properties
   const [fontSize, setFontSize] = useState<number>(64);
   const [fontColor, setFontColor] = useState<string>('#ffffff');
   const [textShadow, setTextShadow] = useState<boolean>(true);
@@ -110,7 +105,6 @@ export default function WatermarkPage() {
   const [fontStyle, setFontStyle] = useState<string>('normal');
   const [fontFamily, setFontFamily] = useState<string>('Arial, sans-serif');
   
-  // Canvas states
   const [isDragging, setIsDragging] = useState(false);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   
@@ -119,7 +113,6 @@ export default function WatermarkPage() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const previewCanvasRef = useRef<HTMLCanvasElement>(null);
   
-  // Load and draw image with watermark
   const drawCanvas = () => {
     const canvas = canvasRef.current;
     if (!canvas || !originalImage) return;
@@ -132,10 +125,8 @@ export default function WatermarkPage() {
       const ctx = canvas.getContext('2d');
       if (!ctx) return;
       
-      // Draw original image
       ctx.drawImage(img, 0, 0);
       
-      // Draw watermark if exists
       if (watermarkType === 'image' && watermarkImage) {
         drawImageWatermark(ctx, img.width, img.height);
       } else if (watermarkType === 'text' && watermarkText) {
@@ -145,7 +136,6 @@ export default function WatermarkPage() {
     img.src = originalImage;
   };
   
-  // Draw image watermark
   const drawImageWatermark = (ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) => {
     const wmImg = new Image();
     wmImg.onload = () => {
@@ -158,7 +148,6 @@ export default function WatermarkPage() {
       ctx.save();
       ctx.globalAlpha = watermarkOpacity / 100;
       
-      // Apply rotation
       if (watermarkRotation !== 0) {
         ctx.translate(pos.x + wmWidth / 2, pos.y + wmHeight / 2);
         ctx.rotate((watermarkRotation * Math.PI) / 180);
@@ -171,35 +160,29 @@ export default function WatermarkPage() {
     wmImg.src = watermarkImage!;
   };
   
-  // Draw text watermark
   const drawTextWatermark = (ctx: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number) => {
     ctx.save();
     ctx.globalAlpha = watermarkOpacity / 100;
     
-    // Apply scale to font size
     const scaledFontSize = fontSize * (watermarkScale / 100);
     
-    // Set font
     ctx.font = `${fontStyle} ${fontWeight} ${scaledFontSize}px ${fontFamily}`;
     ctx.fillStyle = fontColor;
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'center';
     
-    // Measure text
     const metrics = ctx.measureText(watermarkText);
     const textWidth = metrics.width;
     const textHeight = scaledFontSize;
     
     const pos = getWatermarkPosition(canvasWidth, canvasHeight, textWidth, textHeight);
     
-    // Apply rotation
     if (watermarkRotation !== 0) {
       ctx.translate(pos.x + textWidth / 2, pos.y + textHeight / 2);
       ctx.rotate((watermarkRotation * Math.PI) / 180);
       ctx.translate(-(pos.x + textWidth / 2), -(pos.y + textHeight / 2));
     }
     
-    // Draw shadow
     if (textShadow) {
       ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
       ctx.shadowBlur = 4;
@@ -211,7 +194,6 @@ export default function WatermarkPage() {
     ctx.restore();
   };
   
-  // Get watermark position
   const getWatermarkPosition = (canvasWidth: number, canvasHeight: number, wmWidth: number, wmHeight: number) => {
     const padding = 20;
     
@@ -236,7 +218,6 @@ export default function WatermarkPage() {
     }
   };
   
-  // Handle image upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -254,7 +235,6 @@ export default function WatermarkPage() {
     }
   };
   
-  // Handle watermark image upload
   const handleWatermarkUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -271,7 +251,6 @@ export default function WatermarkPage() {
     }
   };
   
-  // Handle canvas drag for custom positioning
   const handleCanvasMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (watermarkPosition !== 'custom') return;
     
@@ -313,7 +292,6 @@ export default function WatermarkPage() {
     setIsDragging(false);
   };
   
-  // Download image
   const handleDownload = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -331,7 +309,6 @@ export default function WatermarkPage() {
     });
   };
   
-  // Redraw canvas when properties change
   useEffect(() => {
     drawCanvas();
   }, [
@@ -355,7 +332,6 @@ export default function WatermarkPage() {
 
   return (
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-        {/* Background gradient */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -365,7 +341,6 @@ export default function WatermarkPage() {
         />
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-          {/* Header Section */}
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -376,9 +351,7 @@ export default function WatermarkPage() {
               Add custom image or text watermarks to protect your content - fully customizable
             </p>
 
-            {/* Controls Row */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              {/* Upload Image Button */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -397,7 +370,6 @@ export default function WatermarkPage() {
 
               {originalImage && (
                 <>
-                  {/* Download Button */}
                   <button
                     onClick={handleDownload}
                     className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-green-500/30 bg-green-500/10 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-green-200 backdrop-blur-md transition-all hover:bg-green-500/20 cursor-pointer shadow-[0_0_20px_rgba(34,197,94,0.4)] hover:shadow-[0_0_30px_rgba(34,197,94,0.6)] animate-pulse hover:animate-none"
@@ -410,13 +382,10 @@ export default function WatermarkPage() {
             </div>
           </div>
 
-          {/* Main Content Area - Side by Side Layout */}
           {originalImage && (
             <div className="w-full max-w-7xl px-2">
               <div className="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-4 sm:gap-6">
-                {/* Left Side - Controls Panel */}
                 <div className="space-y-3 sm:space-y-4">
-                  {/* Watermark Type Selection */}
                   <div className="flex flex-col gap-2">
                     <span className="text-xs text-white/60 mb-1">Watermark Type</span>
                     <div className="flex gap-2">
@@ -445,10 +414,8 @@ export default function WatermarkPage() {
                     </div>
                   </div>
 
-                  {/* Watermark Content */}
                   {watermarkType !== 'none' && (
                     <>
-                      {/* Image Watermark Upload */}
                       {watermarkType === 'image' && (
                         <div>
                           <span className="text-xs text-white/60 mb-2 block">Watermark Image</span>
@@ -469,7 +436,6 @@ export default function WatermarkPage() {
                         </div>
                       )}
 
-                      {/* Text Watermark Input */}
                       {watermarkType === 'text' && (
                         <div className="space-y-3">
                           <div>
@@ -486,11 +452,9 @@ export default function WatermarkPage() {
                             </div>
                           </div>
                           
-                          {/* Text Style Controls */}
                           <div className="space-y-2">
                             <span className="text-xs text-white/60">Text Style</span>
                             
-                            {/* Font Family Dropdown */}
                             <select
                               value={fontFamily}
                               onChange={(e) => setFontFamily(e.target.value)}
@@ -562,10 +526,8 @@ export default function WatermarkPage() {
                         </div>
                       )}
 
-                      {/* Common Controls */}
                       {((watermarkType === 'image' && watermarkImage) || (watermarkType === 'text' && watermarkText)) && (
                         <>
-                          {/* Position Presets */}
                           <div>
                             <span className="text-xs text-white/60 mb-2 block">Position</span>
                             <div className="grid grid-cols-3 gap-2">
@@ -585,9 +547,7 @@ export default function WatermarkPage() {
                             </div>
                           </div>
 
-                          {/* Sliders */}
                           <div className="space-y-3">
-                            {/* Opacity */}
                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1.5">
@@ -606,7 +566,6 @@ export default function WatermarkPage() {
                               />
                             </div>
 
-                            {/* Scale */}
                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1.5">
@@ -625,7 +584,6 @@ export default function WatermarkPage() {
                               />
                             </div>
 
-                            {/* Rotation */}
                             <div className="space-y-1">
                               <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-1.5">
@@ -645,7 +603,6 @@ export default function WatermarkPage() {
                             </div>
                           </div>
 
-                          {/* Instructions */}
                           <div className="flex items-start gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 py-2 backdrop-blur-md">
                             <ImageIcon size={12} className="text-sky-300 mt-0.5 shrink-0" />
                             <p className="text-[10px] text-sky-200/90 leading-relaxed">
@@ -660,7 +617,6 @@ export default function WatermarkPage() {
                   )}
                 </div>
 
-                {/* Right Side - Canvas Preview */}
                 <div
                   className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
                   style={{ minHeight: '500px', maxHeight: '700px' }}
@@ -685,7 +641,6 @@ export default function WatermarkPage() {
             </div>
           )}
 
-          {/* Empty State */}
           {!originalImage && (
             <div className="w-full max-w-7xl px-2">
               <div
@@ -701,6 +656,18 @@ export default function WatermarkPage() {
               </div>
             </div>
           )}
+
+          <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Add watermark text or logos to images online</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Protect your photos with subtle, custom watermarks
+            </h2>
+            <p className="mt-3">
+              Place text or logo watermarks in any corner or the center,
+              adjust opacity and fonts, and export share-ready images that
+              still look clean and professional.
+            </p>
+          </section>
         </main>
       </div>
   );

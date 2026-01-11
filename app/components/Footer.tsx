@@ -5,16 +5,15 @@ export default function Footer() {
   return (
     <footer className="relative z-20  w-full border-t border-white/10 bg-transparent">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 px-6 py-10 lg:flex-row lg:items-start lg:justify-between">
-        {/* Brand / description */}
-        <div className="w-full max-w-sm text-center md:text-left flex flex-col items-start md:items-start">
-          <div className="inline-flex items-center gap-3">
+        <div className="w-full max-w-sm text-center md:text-left flex flex-col items-center md:items-start lg:items-start">
+          <div className="flex justify-center lg:justify-start gap-3">
             
-            <div className="text-left">
+            <div className="lg:text-left text-center">
              <Link
                   href="/"
                   className="text-lg font-semibold tracking-tight text-white font-geom"
                 >
-                  <p className="velocity text-transparent bg-linear-to-r from-sky-700 to-sky-300 bg-clip-text mt-1 ">everything image</p>
+                  <p className="velocity lg:text-center text-transparent bg-linear-to-r from-sky-700 to-sky-300 bg-clip-text mt-1 ">everything image</p>
                 </Link>
             </div>
           </div>
@@ -26,28 +25,26 @@ export default function Footer() {
             No heavy software, just fast tools that run in your browser.
           </p>
 
-          <div className="mt-6">
+          {/* <div className="mt-6">
             <GetStartedButton label="Open playground" href="/playground" />
-          </div>
+          </div> */}
         </div>
 
-        {/* Site links */}
-        <div className="w-full max-w-[180px] text-center md:text-left flex flex-col items-center md:items-start">
+        {/* <div className="w-full max-w-[180px] text-center md:text-left flex lg:flex-col items-center md:items-start">
           <h3 className="text-sm font-medium text-white">Pages</h3>
-          <div className="mt-4 flex flex-col gap-2 text-sm text-white/60">
+          <div className="mt-4 flex lg:flex-col gap-2 text-sm text-white/60">
             <a href="/about" className="transition-colors hover:text-white">
               About
             </a>
             <a href="/contact" className="transition-colors hover:text-white">
               Contact
             </a>
-            {/* <a href="/coffee" className="transition-colors hover:text-white">
+            <a href="/coffee" className="transition-colors hover:text-white">
               Buy me a coffee
-            </a> */}
+            </a>
           </div>
-        </div>
+        </div> */}
 
-        {/* Newsletter */}
         <div className="w-full max-w-md text-center md:text-left flex flex-col items-center md:items-start">
           <h3 className="text-sm font-medium text-white">Stay in the loop</h3>
           <p className="mt-3 text-sm text-white/60">
@@ -61,7 +58,7 @@ export default function Footer() {
                   type="email"
                   required
                   placeholder="Enter your email"
-                  className="h-full w-full bg-transparent pl-3 text-sm text-white placeholder:text-xs placeholder:text-white/50 outline-none"
+                  className="h-11 lg:h-full w-full bg-transparent pl-3 text-sm text-white placeholder:text-xs placeholder:text-white/50 outline-none"
                 />
               </div>
               <button

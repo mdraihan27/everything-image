@@ -14,12 +14,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Prepare FormData for remove.bg API
     const removeBgFormData = new FormData();
     removeBgFormData.append('size', 'auto');
     removeBgFormData.append('image_file', file);
 
-    // Call remove.bg API
     const response = await fetch('https://api.remove.bg/v1.0/removebg', {
       method: 'POST',
       headers: {

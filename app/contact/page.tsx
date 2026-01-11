@@ -1,4 +1,24 @@
+import type { Metadata } from "next";
 import { ArrowUpRight, Github, Globe2, LayoutTemplate, Linkedin, MessageCircle, Sparkles, Workflow } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "Contact & Work With Me | Everything Image",
+  description:
+    "Get in touch to discuss custom image workflows, small web tools, dashboards, and automations inspired by Everything Image.",
+  keywords: [
+    "contact Everything Image",
+    "hire image workflow developer",
+    "custom image tools",
+    "freelance web developer",
+  ],
+  openGraph: {
+    title: "Contact | Custom Image Workflows & Tools",
+    description:
+      "Reach out to collaborate on custom image workflows, automations, and focused web tools similar to Everything Image.",
+    url: "https://everything-image.tech/contact",
+    type: "article",
+  },
+};
 
 export default function ContactPage() {
   return (
@@ -176,6 +196,19 @@ export default function ContactPage() {
                 </p>
               </div>
             </div>
+          </section>
+
+          <section className="mt-12 border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Contact a developer for custom image tools</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Custom image workflows, dashboards and tiny internal tools
+            </h2>
+            <p className="mt-3 max-w-3xl">
+              If you like how Everything Image feels, we can design similar
+              focused tools around your own image pipeline: from upload and
+              background removal to resizing, watermarking, and automated
+              exports for your team.
+            </p>
           </section>
         </div>
       </main>

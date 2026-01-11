@@ -29,13 +29,11 @@ export default function CompressPage() {
   const [useCustom, setUseCustom] = useState(false);
   const [fileName, setFileName] = useState<string>('');
   
-  // File size states
   const [originalSize, setOriginalSize] = useState<number>(0);
   const [compressedSize, setCompressedSize] = useState<number>(0);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Format file size
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes';
     const k = 1024;
@@ -44,14 +42,12 @@ export default function CompressPage() {
     return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   };
 
-  // Calculate compression ratio
   const getCompressionRatio = (): string => {
     if (originalSize === 0 || compressedSize === 0) return '0%';
     const ratio = ((originalSize - compressedSize) / originalSize) * 100;
     return ratio.toFixed(1) + '%';
   };
 
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -69,13 +65,11 @@ export default function CompressPage() {
     };
     reader.readAsDataURL(file);
 
-    // Reset the input value
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  // Compress image
   const handleCompress = async () => {
     if (!originalFile) return;
 
@@ -101,7 +95,6 @@ export default function CompressPage() {
       setCompressedFile(compressed);
       setCompressedSize(compressed.size);
 
-      // Convert to data URL for preview
       const reader = new FileReader();
       reader.onload = (event) => {
         setCompressedImage(event.target?.result as string);
@@ -115,7 +108,6 @@ export default function CompressPage() {
     setIsCompressing(false);
   };
 
-  // Download compressed image
   const handleDownload = () => {
     if (!compressedFile) return;
 
@@ -137,7 +129,6 @@ export default function CompressPage() {
         }
       `}</style>
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-        {/* Background gradient */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -147,7 +138,6 @@ export default function CompressPage() {
         />
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-          {/* Header Section */}
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -158,9 +148,7 @@ export default function CompressPage() {
               Reduce image file size while maintaining quality - supports PNG, JPEG, WebP, and more
             </p>
 
-            {/* Controls Row */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              {/* Upload Button */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -179,7 +167,6 @@ export default function CompressPage() {
 
               {originalImage && (
                 <>
-                  {/* Compress Button */}
                   <button
                     onClick={handleCompress}
                     disabled={isCompressing}
@@ -189,7 +176,6 @@ export default function CompressPage() {
                     {isCompressing ? 'Compressing...' : 'Compress'}
                   </button>
 
-                  {/* Download Button */}
                   {compressedImage && (
                     <button
                       onClick={handleDownload}
@@ -203,10 +189,8 @@ export default function CompressPage() {
               )}
             </div>
 
-            {/* Compression Settings */}
             {originalImage && (
               <div className="space-y-4">
-                {/* Preset/Custom Toggle */}
                 <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 px-2">
                   <button
                     onClick={() => setUseCustom(false)}
@@ -230,7 +214,6 @@ export default function CompressPage() {
                   </button>
                 </div>
 
-                {/* Preset Buttons */}
                 {!useCustom && (
                   <div className="flex flex-wrap items-center justify-center gap-2 mb-4 px-2">
                     {COMPRESSION_PRESETS.map((preset) => (
@@ -249,10 +232,8 @@ export default function CompressPage() {
                   </div>
                 )}
 
-                {/* Custom Controls */}
                 {useCustom && (
                   <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4 px-2">
-                    {/* Target Size */}
                     <div className="flex flex-col sm:flex-row items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto">
                       <span className="text-[10px] sm:text-xs text-white/60">Max Size (MB):</span>
                       <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -287,8 +268,6 @@ export default function CompressPage() {
                     </div>
                   </div>
                 )}
-
-                {/* Info Card */}
                 <div className="flex items-start gap-2 rounded-xl border border-sky-400/30 bg-sky-400/10 px-3 sm:px-4 py-2 sm:py-3 backdrop-blur-md max-w-2xl mx-auto">
                   <Info size={14} className="text-sky-300 mt-0.5 shrink-0 sm:w-4 sm:h-4" />
                   <p className="text-[10px] sm:text-xs text-sky-200/90 leading-relaxed">
@@ -300,7 +279,6 @@ export default function CompressPage() {
               </div>
             )}
 
-            {/* File Size Comparison */}
             {compressedImage && (
               <div className="mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-6 px-2">
                 <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md">
@@ -324,7 +302,6 @@ export default function CompressPage() {
             )}
           </div>
 
-          {/* Preview Pane */}
           <div className="w-full max-w-7xl px-2">
             <div
               className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
@@ -355,7 +332,6 @@ export default function CompressPage() {
 
               {compressedImage && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6 md:p-8 min-h-100 md:min-h-150">
-                  {/* Original */}
                   <div className="flex flex-col items-center justify-center min-h-45 md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Original ({formatFileSize(originalSize)})
@@ -370,7 +346,6 @@ export default function CompressPage() {
                     />
                   </div>
 
-                  {/* Compressed */}
                   <div className="flex flex-col items-center justify-center min-h-45 md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Compressed ({formatFileSize(compressedSize)})
@@ -388,6 +363,18 @@ export default function CompressPage() {
               )}
             </div>
           </div>
+
+          <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Compress images online without losing visible quality</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Make images smaller for web, email and chat uploads
+            </h2>
+            <p className="mt-3">
+              Choose a preset or custom target size to reduce file weight
+              while keeping your images sharp enough for websites, emails and
+              messaging apps.
+            </p>
+          </section>
         </main>
       </div>
     </>

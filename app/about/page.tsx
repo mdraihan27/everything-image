@@ -1,5 +1,25 @@
+import type { Metadata } from "next";
 import GetStartedButton from "../components/GetStartedButton";
 import { CheckCircle2, Clock, Layers, MonitorSmartphone } from "lucide-react";
+
+export const metadata: Metadata = {
+  title: "About Everything Image Online Editor",
+  description:
+    "Learn why Everything Image was built as a calm, fast online image editor for quick everyday photo tasks like resize, convert, crop and compress.",
+  keywords: [
+    "about Everything Image",
+    "online image editor story",
+    "simple image tools",
+    "fast browser image editor",
+  ],
+  openGraph: {
+    title: "About Everything Image | Simple Online Image Toolkit",
+    description:
+      "Everything Image focuses on the boring, everyday image jobs: resize, compress, crop, convert and clean up files quickly in your browser.",
+    url: "https://everything-image.tech/about",
+    type: "article",
+  },
+};
 
 export default function AboutPage() {
   return (
@@ -44,7 +64,6 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Why this needed to exist */}
           <section className="mt-14 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
             <div>
               <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
@@ -99,12 +118,11 @@ export default function AboutPage() {
               <p className="mt-3 text-xs text-white/60">
                 everything-image is for thumbnails, quick exports for decks,
                 screenshots, last-minute blog images, and client assets that
-                "just need to be a bit smaller".
+                &quot;just need to be a bit smaller&quot;.
               </p>
             </div>
           </section>
 
-          {/* Comparison cards: others vs everything-image */}
           <section className="mt-16">
             <h2 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
               What other tools usually feel like vs. what this tries to be
@@ -178,8 +196,22 @@ export default function AboutPage() {
               </div>
             </div>
           </section>
+
+          <section className="mt-16 border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Simple online image tools built for real everyday jobs</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              An online image editor focused on quick, boring tasks
+            </h2>
+            <p className="mt-3 max-w-3xl">
+              Everything Image is designed around resize, convert, compress,
+              crop and rotate tasks you actually do day-to-day, not complex
+              effects. Open a tab, drop an image, fix the file and move on
+              with your work.
+            </p>
+          </section>
         </div>
       </main>
     </div>
   );
 }
+

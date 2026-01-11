@@ -45,7 +45,6 @@ export default function ConvertPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // Handle file upload
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -61,24 +60,20 @@ export default function ConvertPage() {
     };
     reader.readAsDataURL(file);
 
-    // Reset the input value
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
   };
 
-  // Convert image
   const handleConvert = async () => {
     if (!originalImage) return;
 
     setIsConverting(true);
 
     try {
-      // Special handling for SVG
       if (sourceFormat === 'image/svg+xml' && targetFormat !== 'image/svg+xml') {
         await convertFromSVG();
       } else if (sourceFormat !== 'image/svg+xml' && targetFormat === 'image/svg+xml') {
-        // Can't convert raster to SVG
         alert('Cannot convert raster images to SVG format');
         setIsConverting(false);
         return;
@@ -93,7 +88,6 @@ export default function ConvertPage() {
     setIsConverting(false);
   };
 
-  // Convert from SVG to raster
   const convertFromSVG = async () => {
     return new Promise<void>((resolve, reject) => {
       const img = new Image();
@@ -123,7 +117,6 @@ export default function ConvertPage() {
     });
   };
 
-  // Convert raster to raster
   const convertRasterImage = async () => {
     return new Promise<void>((resolve, reject) => {
       const img = new Image();
@@ -143,7 +136,6 @@ export default function ConvertPage() {
           return;
         }
 
-        // For formats that don't support transparency, fill with white
         if (targetFormat === 'image/jpeg' || targetFormat === 'image/bmp') {
           ctx.fillStyle = '#FFFFFF';
           ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -151,7 +143,6 @@ export default function ConvertPage() {
 
         ctx.drawImage(img, 0, 0);
 
-        // Set quality based on format
         const quality = targetFormat === 'image/jpeg' ? 0.95 : 1.0;
         const converted = canvas.toDataURL(targetFormat, quality);
         setConvertedImage(converted);
@@ -162,7 +153,6 @@ export default function ConvertPage() {
     });
   };
 
-  // Download converted image
   const handleDownload = () => {
     if (!convertedImage) return;
 
@@ -170,7 +160,6 @@ export default function ConvertPage() {
     const ext = format?.ext || 'png';
     const downloadName = `${fileName}-converted.${ext}`;
 
-    // Direct anchor method (more reliable than fetch for data URLs)
     const a = document.createElement('a');
     a.href = convertedImage;
     a.download = downloadName;
@@ -191,7 +180,6 @@ export default function ConvertPage() {
         }
       `}</style>
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
-        {/* Background gradient */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -199,12 +187,9 @@ export default function ConvertPage() {
               "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(105, 182, 255, 0.25), transparent 70%), #000000",
           }}
         />
-
-        {/* Hidden canvas for conversion */}
-        <canvas ref={canvasRef} className="hidden" />
+  <canvas ref={canvasRef} className="hidden" />
 
         <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
-          {/* Header Section */}
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -215,9 +200,7 @@ export default function ConvertPage() {
               Convert images between 28+ formats including PNG, JPEG, WebP, AVIF, HEIC, GIF, BMP, TIFF, and more
             </p>
 
-            {/* Controls Row */}
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-              {/* Upload Button */}
               <input
                 ref={fileInputRef}
                 type="file"
@@ -236,7 +219,6 @@ export default function ConvertPage() {
 
               {originalImage && (
                 <>
-                  {/* Convert Button */}
                   <button
                     onClick={handleConvert}
                     disabled={isConverting || sourceFormat === targetFormat}
@@ -246,7 +228,6 @@ export default function ConvertPage() {
                     {isConverting ? 'Converting...' : 'Convert'}
                   </button>
 
-                  {/* Download Button */}
                   {convertedImage && (
                     <button
                       onClick={handleDownload}
@@ -260,10 +241,8 @@ export default function ConvertPage() {
               )}
             </div>
 
-            {/* Format Selection */}
             {originalImage && (
               <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3 sm:gap-4 mb-4 sm:mb-6 px-2">
-                {/* Source Format Display */}
                 <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto justify-center">
                   <span className="text-xs text-white/60">From:</span>
                   <span className="text-sm font-medium text-white/90">
@@ -273,8 +252,6 @@ export default function ConvertPage() {
 
                 <ArrowRight size={18} className="text-white/40 hidden sm:block" />
                 <div className="text-white/40 sm:hidden">↓</div>
-
-                {/* Target Format Dropdown */}
                 <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3 sm:px-4 py-2 backdrop-blur-md w-full sm:w-auto justify-center">
                   <span className="text-xs text-white/60">To:</span>
                   <select
@@ -296,7 +273,6 @@ export default function ConvertPage() {
               </div>
             )}
 
-            {/* Info message */}
             {sourceFormat === targetFormat && originalImage && (
               <div className="text-center mb-4">
                 <p className="text-xs text-yellow-400/70">
@@ -306,7 +282,6 @@ export default function ConvertPage() {
             )}
           </div>
 
-          {/* Preview Pane */}
           <div className="w-full max-w-7xl px-2">
             <div
               className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
@@ -337,7 +312,6 @@ export default function ConvertPage() {
 
               {convertedImage && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4 sm:p-6 md:p-8 min-h-[400px] md:min-h-[600px]">
-                  {/* Original */}
                   <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Original ({getFormatLabel(sourceFormat)})
@@ -351,8 +325,6 @@ export default function ConvertPage() {
                       }}
                     />
                   </div>
-
-                  {/* Converted */}
                   <div className="flex flex-col items-center justify-center min-h-[180px] md:min-h-0">
                     <p className="text-white/60 text-[10px] sm:text-xs mb-2">
                       Converted ({getFormatLabel(targetFormat)})
@@ -370,6 +342,18 @@ export default function ConvertPage() {
               )}
             </div>
           </div>
+
+          <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Convert images between PNG, JPG, WebP, AVIF and more</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Get the right image format for speed, quality and compatibility
+            </h2>
+            <p className="mt-3">
+              Switch between common formats like PNG, JPG and WebP or export
+              to modern formats like AVIF and HEIC so your images work better
+              across browsers, apps and devices.
+            </p>
+          </section>
         </main>
       </div>
     </>

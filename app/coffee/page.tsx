@@ -1,3 +1,23 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Support Everything Image With a Coffee",
+  description:
+    "If Everything Image saves you time on quick image edits, you can support ongoing maintenance by buying a coffee.",
+  keywords: [
+    "support Everything Image",
+    "buy me a coffee",
+    "donate to image editor",
+  ],
+  openGraph: {
+    title: "Buy a Coffee for Everything Image",
+    description:
+      "Enjoy using the free online image tools? Support the project with a small coffee so it can keep running.",
+    url: "https://everything-image.tech/coffee",
+    type: "article",
+  },
+};
+
 export default function CoffeePage() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
@@ -33,8 +53,19 @@ export default function CoffeePage() {
             >
               Open coffee link
             </a>
-            
           </div>
+
+          <section className="mt-12 border-t border-white/10 pt-8 text-sm text-white/70">
+            <h1 className="sr-only">Support this free online image editor</h1>
+            <h2 className="text-xl font-semibold text-white sm:text-2xl">
+              Help keep Everything Image fast, focused and free
+            </h2>
+            <p className="mt-3 max-w-3xl">
+              Your coffee helps cover hosting and development time so the
+              resize, convert, compress and background removal tools stay
+              online for everyone who needs quick image fixes.
+            </p>
+          </section>
         </div>
       </main>
     </div>
