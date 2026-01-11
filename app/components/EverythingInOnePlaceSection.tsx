@@ -16,9 +16,10 @@ export default function EverythingInOnePlaceSection() {
             One tab for the boring image stuff
           </h2>
           <p className="mt-3 text-sm leading-6 text-white/70 sm:text-base">
-            Instead of juggling a bunch of random tools, everything-image keeps
-            the basics together: size, format, background, and quality in one
-            simple place.
+            Instead of jumping between different sites to resize, convert,
+            compress, remove backgrounds, blur details, add text, or add a
+            watermark, Everything Image keeps the everyday fixes in one simple
+            place.
           </p>
         </div>
 
@@ -28,11 +29,11 @@ export default function EverythingInOnePlaceSection() {
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-white/5 text-sky-300 ring-1 ring-white/10">
                 <Images className="h-4 w-4" />
               </span>
-              Core edits together
+              Edit essentials together
             </div>
             <p className="mt-3 text-xs leading-6 text-white/70">
-              Resize, crop, rotate, compress, and tweak exports without opening
-              a second tab.
+              Resize, crop, rotate, tweak tone and clean up an image in one
+              place so you do not have to open a heavy editor for quick fixes.
             </p>
           </div>
 
@@ -41,11 +42,11 @@ export default function EverythingInOnePlaceSection() {
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-white/5 text-sky-300 ring-1 ring-white/10">
                 <FolderTree className="h-4 w-4" />
               </span>
-              Clear export flow
+              Clear export options
             </div>
             <p className="mt-3 text-xs leading-6 text-white/70">
-              See format, size, and quality options in one place so you always
-              know what you are downloading.
+              Pick PNG, JPG, WebP, AVIF and more, set quality and size, and see
+              exactly what you are downloading before you hit save.
             </p>
           </div>
 
@@ -54,11 +55,11 @@ export default function EverythingInOnePlaceSection() {
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-2xl bg-white/5 text-sky-300 ring-1 ring-white/10">
                 <Workflow className="h-4 w-4" />
               </span>
-              Works like your brain
+              Built for real workflows
             </div>
             <p className="mt-3 text-xs leading-6 text-white/70">
-              Made for real-world tasks: thumbnails, decks, client fixes,
-              quick web exports and more.
+              Made for real tasks: thumbnails, profile pictures, decks, client
+              fixes, quick web exports and everything you do over and over.
             </p>
           </div>
 
@@ -70,8 +71,9 @@ export default function EverythingInOnePlaceSection() {
               Ready-to-go variants
             </div>
             <p className="mt-3 text-xs leading-6 text-white/70">
-              Start with one image and leave with all the versions you need -
-              sized for email, social posts, slides, and client handoff.
+              Start with one image and quickly make versions sized for email,
+              social posts, slides, and client handoff so you are not repeating
+              the same edits.
             </p>
           </div>
         </div>
