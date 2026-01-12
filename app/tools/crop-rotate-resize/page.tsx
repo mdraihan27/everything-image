@@ -254,13 +254,8 @@ export default function CropRotateResizePage() {
   };
 
   return (
-    <>
-      <style jsx global>{`
-        body > div > footer {
-          display: none !important;
-        }
-      `}</style>
-      <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
+  <>
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -269,7 +264,7 @@ export default function CropRotateResizePage() {
           }}
         />
 
-        <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
+          <main className="relative z-10 flex w-full flex-1 flex-col items-center px-4 pb-20 pt-28 sm:pt-32">
           <div className="w-full max-w-7xl mb-6 sm:mb-8 px-2">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-2 sm:mb-3">
               <span className="bg-linear-to-r from-white via-sky-200 to-violet-200 bg-clip-text text-transparent">
@@ -333,9 +328,9 @@ export default function CropRotateResizePage() {
 
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
+                    className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
                   >
-                    <Download size={18} />
+                    <Download size={16} className="sm:w-4.5 sm:h-4.5" />
                     Download
                   </button>
                 </>
@@ -452,7 +447,7 @@ export default function CropRotateResizePage() {
             )}
           </div>
 
-          <div className="w-full max-w-7xl px-2">
+            <div className="w-full max-w-7xl px-2">
             <div
               className="relative w-full rounded-xl sm:rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden"
               style={{ minHeight: '400px', height: 'auto' }}
@@ -530,6 +525,18 @@ export default function CropRotateResizePage() {
               )}
             </div>
           </div>
+
+            <section className="mt-16 w-full max-w-5xl border-t border-white/10 pt-8 text-sm text-white/70">
+              <h1 className="sr-only">Crop, rotate and resize images online</h1>
+              <h2 className="text-xl font-semibold text-white sm:text-2xl">
+                Fix framing, rotation and size before you share
+              </h2>
+              <p className="mt-3">
+                Use the crop, rotate and resize controls to straighten horizons,
+                adjust composition and export images at exact pixel dimensions for
+                social media, profile photos, banners and thumbnails.
+              </p>
+            </section>
         </main>
       </div>
     </>

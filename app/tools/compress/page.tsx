@@ -123,11 +123,6 @@ export default function CompressPage() {
 
   return (
     <>
-      <style jsx global>{`
-        body > div > footer {
-          display: none !important;
-        }
-      `}</style>
       <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
         <div
           className="absolute inset-0 z-0"

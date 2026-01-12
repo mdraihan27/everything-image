@@ -1,0 +1,16 @@
+User-agent: *
+
+# Allow everything by default
+Allow: /
+
+# Block internal API routes from indexing
+Disallow: /api/
+
+# Optional: block Next.js internal assets (if any ever appear in paths)
+Disallow: /_next/
+
+# Sitemap for better discovery
+Sitemap: https://everything-image.tech/sitemap.xml
+
+# Host (used by some crawlers)
+Host: everything-image.tech

@@ -90,7 +90,7 @@ export default function RemoveBackgroundClient() {
   };
 
   const erase = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current) return;
+    if (!isDrawing || !isErasing || !canvasRef.current) return;
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
@@ -138,12 +138,7 @@ export default function RemoveBackgroundClient() {
   };
   return (
     <>
-      <style jsx global>{`
-        body > div > footer {
-          display: none !important;
-        }
-      `}</style>
-      <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-black flex flex-col">
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -245,9 +240,9 @@ export default function RemoveBackgroundClient() {
 
                   <button
                     onClick={handleDownload}
-                    className="flex items-center gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-4 py-2.5 text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
+                    className="flex items-center gap-1.5 sm:gap-2 rounded-xl border border-white/10 bg-linear-to-r from-sky-500/20 to-violet-500/20 px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-white/90 backdrop-blur-md transition-all hover:from-sky-500/30 hover:to-violet-500/30 cursor-pointer"
                   >
-                    <Download size={18} />
+                    <Download size={16} className="sm:w-4.5 sm:h-4.5" />
                     Download
                   </button>
                 </>
